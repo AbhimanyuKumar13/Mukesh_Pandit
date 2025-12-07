@@ -1,0 +1,174 @@
+/* Contact form styles that rely on your :root and .dark variables in index.css */
+
+.container {
+  max-width: 720px;
+  margin: 2.25rem auto;
+  padding: 1.75rem; 
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--body-bg) 88%, #ffffff 6%); /* subtle card against page */
+  box-shadow: 0 8px 28px rgba(0,0,3,0.06);
+  transition: background 200ms ease, box-shadow 200ms ease;
+}
+
+/* Make the card slightly darker in dark mode */
+.dark .container {
+  background: color-mix(in srgb, var(--body-bg) 94%, #071827 6%);
+  box-shadow: 0 6px 22px rgba(2,6,23,0.48);
+}
+
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Heading */
+.heading {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.subheading {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.45;
+  margin-bottom: 0.25rem;
+}
+.subheading a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+.subheading a:hover { color: color-mix(in srgb, var(--accent) 80%, #000 20%); text-decoration: underline; }
+
+/* Input groups */
+.inputGroup {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.05rem;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+/* Inputs & textarea use theme variables */
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.85rem 1rem 0.85rem 3.2rem; 
+  border-radius: 10px;
+  border: 1px solid var(--muted);
+  background: transparent;
+  color: var(--text);
+  font-size: 0.98rem;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  appearance: none;
+}
+
+/* Input placeholders */
+.input::placeholder,
+.textarea::placeholder {
+  color: #9aa8bd;
+}
+
+/* Dark-mode overrides (the variables already help; this makes border subtler) */
+.dark .input,
+.dark .textarea {
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--text);
+}
+
+/* Focus states */
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 6px 24px rgba(96,165,250,0.08);
+}
+
+/* Textarea specifics */
+.textarea {
+  min-height: 140px;
+  resize: vertical;
+  padding-top: 0.9rem;
+}
+
+/* Submit button */
+.submitButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.05rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 60%, #fff 20%));
+  color: white;
+  font-weight: 700;
+  transition: transform 120ms ease, box-shadow 120ms ease, opacity 120ms ease;
+}
+.submitButton:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(37,99,235,0.12); }
+.submitButton:disabled { opacity: 0.7; cursor: not-allowed; transform: none; box-shadow: none; background: gray; }
+
+/* Spinner inside button */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.28);
+  border-top: 2px solid #fff;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+/* Toast (bottom center) */
+.toast {
+  position: fixed;
+  bottom: 1.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, #10b981, #48bb78);
+  color: #fff;
+  padding: 0.7rem 1.15rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 36px rgba(2,6,23,0.28);
+  font-weight: 700;
+  z-index: 60;
+  display: inline-flex;
+  gap: 0.6rem;
+  align-items: center;
+  animation: toastIn 260ms ease;
+}
+
+/* Error text below fields */
+.error {
+  color: #ef4444;
+  font-size: 0.92rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* small screens */
+@media (max-width: 520px) {
+  .container {
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+  }
+  .heading { font-size: 1.3rem; }
+  .input, .textarea { padding-left: 2.6rem; }
+}
+
+/* Animations */
+@keyframes spin { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
+@keyframes toastIn { from { transform: translateX(-50%) translateY(8px); opacity: 0 } to { transform: translateX(-50%) translateY(0); opacity: 1 } }

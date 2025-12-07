@@ -1,0 +1,235 @@
+.servicesSection {
+  background: var(--os-bg);
+  color: var(--os-text);
+  transition: background 240ms ease, color 240ms ease;
+  padding: 3.2rem 1.25rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+}
+ 
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+ 
+.heading {
+  font-size: clamp(1.6rem, 3.8vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.05;
+  margin: 0 0 0.35rem;
+  text-align: center;
+  color: var(--os-text);
+}
+
+.lead {
+  max-width: 780px;
+  margin: 0.15rem auto 1.8rem;
+  text-align: center;
+  color: var(--os-muted);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* ---------- Grid ---------- */
+.grid {
+  display: flex;
+  gap: 1.25rem;  
+  flex-direction: column;
+}
+
+/* ---------- Card ---------- */
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.9rem;
+  background: var(--os-card);
+  border-radius: 12px;
+  padding: 1.05rem;
+  border: 1px solid var(--os-border);
+  box-shadow: 0 8px 20px var(--os-shadow);
+  transition: transform 280ms cubic-bezier(.2,.9,.3,1), box-shadow 280ms ease, border-color 280ms ease;
+  will-change: transform;
+  overflow: hidden;
+}
+
+/* Slight lift handled by Framer Motion whileHover, but keep a subtle :hover fallback */
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(2,6,23,0.12);
+}
+
+/* ---------- Content ---------- */
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.cardTitle {
+  font-size: 1.12rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--os-text);
+}
+
+.cardSubtitle {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--os-muted);
+}
+
+.cardDescription {
+  margin: 0.45rem 0;
+  font-size: 0.95rem;
+  color: var(--os-muted);
+  line-height: 1.45;
+}
+
+/* ---------- Bullets ---------- */
+.bulletList {
+  margin: 0.45rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.36rem;
+}
+
+.bulletItem {
+  position: relative;
+  padding-left: 1.35rem;
+  font-size: 0.92rem;
+  color: var(--os-muted);
+  margin: 0;
+}
+
+.bulletItem::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.48rem;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--os-accent);
+  transform: translateY(-50%);
+}
+
+/* ---------- Note block ---------- */
+.note {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  color: var(--os-muted);
+  background: var(--os-note-bg);
+  border-left: 3px solid var(--os-accent);
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+}
+
+/* ---------- Image wrapper and image ---------- */
+.imageWrap {
+  display: block;
+  margin-top: 0.85rem;
+  width: 100%;
+  align-self: center;
+}
+
+.serviceImage {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  box-shadow: 0 10px 24px rgba(2,6,23,0.06);
+  transition: transform 320ms cubic-bezier(.2,.9,.3,1), box-shadow 320ms ease, filter 320ms ease;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Motion-friendly lower-power / reduced-motion support */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .serviceImage {
+    transition: none;
+  }
+  .card:hover {
+    transform: none;
+  }
+}
+
+/* Placeholder (when image missing) */
+.imagePlaceholder {
+  width: 100%;
+  height: 180px;
+  border-radius: 8px;
+  background: var(--os-placeholder);
+  display: grid;
+  place-items: center;
+  color: var(--os-muted);
+  font-size: 0.95rem;
+}
+
+/* smaller screens adjustments */
+@media (max-width: 720px) {
+  .serviceImage,
+  .imagePlaceholder {
+    height: 160px;
+  }
+
+  .card {
+    padding: 0.95rem;
+  }
+}
+
+/* very small screens */
+@media (max-width: 480px) {
+  .grid {
+    gap: 0.9rem;
+    grid-template-columns: 1fr;
+  }
+
+  .serviceImage,
+  .imagePlaceholder {
+    height: 140px;
+  }
+
+  .heading {
+    font-size: 1.5rem;
+  }
+
+  .lead {
+    font-size: 0.98rem;
+    padding: 0 0.25rem;
+  }
+}
+
+/* Utility: small visual divider between content and image on wide layout */
+@media (min-width: 1000px) {
+  .card {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .cardContent {
+    flex: 1 1 60%;
+    padding-right: 1rem;
+  }
+
+  .imageWrap {
+    flex: 0 0 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .serviceImage,
+  .imagePlaceholder {
+    height: 100%;
+    max-height: 220px;
+    width: 100%;
+    border-radius: 10px;
+  }
+}

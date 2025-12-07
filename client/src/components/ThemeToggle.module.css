@@ -1,0 +1,46 @@
+/* ThemeToggle.module.css */
+.wrap{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* main toggle button (icon) */
+.toggleBtn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  height:36px;
+  border-radius:8px;
+  border:1px solid rgba(0,0,0,0.06);
+  background: var(--toggle-bg);
+  cursor:pointer;
+  transition: transform .12s ease, background .12s ease;
+  padding:6px;
+}
+.toggleBtn:active{ transform: scale(.98); }
+
+/* icon sizing & color */
+.icon{
+  width:18px;
+  height:18px;
+  color: var(--icon);
+}
+
+/* small 'Use system' button */
+.systemBtn{
+  font-size:12px;
+  padding:6px 8px;
+  border-radius:6px;
+  border:1px solid rgba(0,0,0,0.06);
+  background: transparent;
+  cursor:pointer;
+  color: var(--muted);
+}
+
+/* focus states for accessibility */
+.toggleBtn:focus, .systemBtn:focus{
+  outline: 3px solid rgba(59,130,246,0.18);
+  outline-offset: 2px;
+}

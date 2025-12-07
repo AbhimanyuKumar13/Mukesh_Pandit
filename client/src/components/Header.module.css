@@ -1,0 +1,162 @@
+/* Header.module.css - responsive header + mobile slide panel */
+/* Relies on your global CSS variables like --header-bg, --text, --accent, --hover-bg, --toggle-bg, --icon */
+
+.header {
+  width: 100%;
+  background: var(--header-bg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 20px 40px 40px;
+  height: 64px;
+  border-bottom: 2px solid rgb(59,130,246,.5);
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  transition: background .15s ease, color .15s ease;
+}
+.logo{
+  width: 75px;
+  border-radius: 49%;
+}
+/* Brand */
+.nameLogoContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.name{
+  padding: 10px 0px;
+  font-size: 1rem;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+}
+.nameSpan {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Right group */
+.rightGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Desktop nav (hidden on small screens) */
+.navContainer {
+  display: none; /* will be visible on wider screens via media query */
+}
+.nav {
+  display: flex;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.navItems {
+  display: inline-block;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 16px;
+  transition: color .12s ease, background .12s ease;
+}
+.navItems:hover {
+  color: var(--accent);
+  background: var(--hover-bg);
+}
+
+/* Controls */
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Hamburger button (visible on small screens) */
+.hamburgerBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: var(--toggle-bg);
+  cursor: pointer;
+  padding: 6px;
+}
+.hamburgerBtn:focus {
+  outline: 3px solid rgba(59,130,246,0.18);
+  outline-offset: 2px;
+}
+.icon {
+  width: 20px;
+  height: 20px;
+  color: var(--icon);
+}
+
+/* Mobile panel (initially hidden) */
+.mobilePanel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 84px;  
+  background: var(--header-bg);
+  transform-origin: top;
+  transform: translateY(-6px) scaleY(0.98);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .18s ease, opacity .18s ease;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 6px 24px rgba(2,6,23,0.08);
+}
+
+/* when open */
+.mobilePanel.open {
+  transform: translateY(0) scaleY(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Mobile nav list */
+.mobileNavList {
+  list-style: none;
+  margin: 0;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mobileNavLink {
+  display: block;
+  padding: 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text);
+}
+.mobileNavLink:hover {
+  background: var(--hover-bg);
+  color: var(--accent);
+}
+
+/* Responsive breakpoints: desktop shows nav, hides hamburger & mobile panel */
+@media (min-width: 768px) {
+  .navContainer { display: block; }
+  .hamburgerBtn { display: none; }
+  .mobilePanel { display: none; }
+} 
+@media screen and (max-width: 800px){
+  .nameLogoContainer h1{
+    font-size: 1.8rem;
+  }
+  .header {
+    padding: 40px 10px;
+  }
+}

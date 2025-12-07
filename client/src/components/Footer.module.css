@@ -1,0 +1,204 @@
+.footer {
+  background: var(--header-bg, #0b1220); /* theme aware */
+  color: var(--text, #e2e8f0);
+  padding: 3rem 1rem;
+  font-family: "Inter", sans-serif;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* container uses same max width you had in JSX (max-w-7xl) but CSS module is for layout */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+/* sections */
+.links,
+.social,
+.formSection {
+  min-width: 0;
+}
+
+.sectionTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--text);
+}
+
+/* lists & links */
+.linkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.link {
+  font-size: 1.2rem;
+  color: var(--muted, #9aa8bd);
+  text-decoration: none;
+  display: block;
+  padding: 0.35rem 0;
+  transition: color 0.2s ease, transform 0.15s ease;
+}
+.link:hover,
+.link:focus {
+  color: var(--accent, #60a5fa);
+  transform: translateX(4px);
+  outline: none;
+}
+
+/* social icons row */
+.socialIcons {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 1rem;
+}
+.linkname {
+  margin-left: 0.5rem;
+  font-size: 1.2rem;
+}
+.socialLink {
+  text-decoration: none;
+  color: var(--muted, #9aa8bd);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, transform 0.15s ease;
+}
+.socialLink:hover,
+.socialLink:focus {
+  color: var(--accent);
+  transform: scale(1.15);
+  outline: none;
+}
+
+/* contact form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  background: transparent;
+  border: 1px solid var(--muted);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.07);
+}
+.textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+/* submit */
+.submitButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(
+    90deg,
+    var(--accent),
+    color-mix(in srgb, var(--accent) 70%, #ffffff 30%)
+  );
+  color: #fff;
+  font-weight: 600;
+  margin-top: 0.25rem;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+.submitButton:active {
+  transform: translateY(1px);
+}
+.submitButton[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* bottom area */
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 2rem auto 0;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding-top: 1rem;
+}
+.copyright {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 0.25rem 0;
+}
+.credit {
+  display: flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.abhitag {
+  font-size: 0.675rem;
+  color: var(--muted);
+  margin: 0.25rem 0;
+}
+.abhiProfileLink {
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+/* small screens: stack */
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    text-align: left;
+  }
+  .bottom {
+    flex-direction: column;
+  }
+  .footer {
+    margin: 0.5rem;
+  }
+  .social{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+  .socialIcons{
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+  }
+  .sectionTitle{
+    font-size: 1.6rem;
+  }
+  .socialIcons {
+    justify-content: center;
+  }
+  .formSection {  
+    margin-bottom: 2rem;
+    order: 3;
+  } /* put form below links & social on small screens */
+}

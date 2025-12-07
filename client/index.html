@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="ico.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Roboto:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>PC - Er. Mukesh Pandit</title>
+    <style> 
+    </style>
+    <script>
+      (function () {
+        try {
+          const stored = localStorage.getItem("theme"); // 'dark' | 'light' | null
+          if (stored === "dark") {
+            document.documentElement.classList.add("dark");
+            return;
+          }
+          if (stored === "light") {
+            document.documentElement.classList.remove("dark");
+            return;
+          }
+          // no stored choice -> follow system
+          if (
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches
+          ) {
+            document.documentElement.classList.add("dark");
+          }
+        } catch (e) {
+          /* ignore */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
