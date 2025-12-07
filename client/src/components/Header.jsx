@@ -6,7 +6,7 @@ import ThemeToggle from "./ThemeToggle";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "../assets/images/logo.jpg";
+import logo from "../assets/images/logo.png";
 
 export const Header = () => {
   const [open, setOpen] = useState(false);
