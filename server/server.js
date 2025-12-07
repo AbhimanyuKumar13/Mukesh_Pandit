@@ -7,9 +7,12 @@ dotenv.config();
 
 const app = express();
  
-const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(",").map(origin => origin.trim())
-  : [];
+const allowedOrigins = [
+  'https://panditconstruction.netlify.app',
+  'http://localhost:5173',
+  'http://localhost:3000', 
+];
+ 
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
