@@ -1,72 +1,151 @@
-// routes/contact.js
-const express = require('express');
-const router = express.Router();
-const nodemailer = require('nodemailer');
+import styles from "./ContactUs.module.css";
+import { useState } from "react";
+import confetti from "canvas-confetti";
+import { motion } from "framer-motion";
 
-const EMAIL_USER = process.env.EMAIL_USER;
-const EMAIL_PASS = process.env.EMAIL_PASS;
-const EMAIL_TO = process.env.EMAIL_TO || EMAIL_USER; // where to send contact mails
-
-if (!EMAIL_USER || !EMAIL_PASS) {
-  console.warn('Email credentials not set. Set EMAIL_USER and EMAIL_PASS as env vars.');
-}
-
-const createTransporter = () => {
-  return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: Number(process.env.SMTP_PORT) || 587,
-    secure: process.env.SMTP_PORT === '465', // true for 465, false for 587
-    auth: {
-      user: EMAIL_USER,
-      pass: EMAIL_PASS
-    },
-    tls: {
-      rejectUnauthorized: false // set true if you want cert validation
-    },
-    connectionTimeout: 20000,
-    greetingTimeout: 20000,
-    socketTimeout: 20000,
-  });
+const container = {
+  hidden: { opacity: 0, y: 15 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { staggerChildren: 0.08, duration: 0.45, ease: "easeOut" },
+  },
 };
 
-router.post('/', async (req, res) => {
-  const { name, email, message } = req.body;
-  if (!name || !email || !message) return res.status(400).json({ message: 'All fields are required.' });
+const item = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
+};
 
-  const transporter = createTransporter();
+export default function ContactUs() {
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
 
-  // Optional: verify connection quickly
-  try {
-    await transporter.verify();
-  } catch (verifyErr) {
-    console.error('SMTP verify failed:', verifyErr && (verifyErr.message || verifyErr));
-    return res.status(500).json({ message: 'Email service not available. Try again later.' });
-  }
-
-  const mailOptions = {
-    from: `"${name}" <${email}>`,
-    to: EMAIL_TO,
-    subject: `New Contact Form: ${name}`,
-    text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
-    html: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p>${message}</p>`
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent:', info && (info.messageId || info.response));
-    return res.status(200).json({ message: 'Message sent successfully.' });
-  } catch (err) {
-    // log detailed error for debugging
-    console.error('Email send error:', err && (err.response || err.message || err));
-    // classify common errors for user-friendly messages
-    if (err && err.code === 'ECONNECTION') {
-      return res.status(502).json({ message: 'Unable to connect to email server (connection error).' });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const api = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${api}/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        e.target.reset();
+        setFormData({ name: "", email: "", message: "" });
+        setToast(true);
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+        setTimeout(() => setToast(false), 3000);
+      } else {
+        alert("Failed to send message.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong.");
+    } finally {
+      setLoading(false);
     }
-    if (err && err.code === 'ETIMEDOUT') {
-      return res.status(504).json({ message: 'Email send timed out.' });
-    }
-    return res.status(500).json({ message: 'Failed to send message.' });
-  }
-});
+  };
 
-module.exports = router;
+  return (
+    <motion.div
+      className={styles.container}
+      variants={container}
+      initial="hidden"
+      animate="visible"
+    >
+      <motion.form
+        onSubmit={handleSubmit}
+        className={styles.contactForm}
+        variants={item}
+      >
+        <motion.h2 className={styles.heading} variants={item}>
+          Get in Touch
+        </motion.h2>
+
+        <motion.p className={styles.subheading} variants={item}>
+          Have a question or want to collaborate? Fill out the form below or
+          reach me at <a href="mailto:mk9974119152@gmail.com">mk9974119152@gmail.com</a> or (+91) 9974119152.
+        </motion.p>
+
+        <motion.div className={styles.inputGroup} variants={item}>
+          <span className={styles.icon}>👤</span>
+          <input
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className={styles.input}
+          />
+        </motion.div>
+
+        <motion.div className={styles.inputGroup} variants={item}>
+          <span className={styles.icon}>📧</span>
+          <input
+            type="email"
+            name="email"
+            placeholder="Your Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className={styles.input}
+          />
+        </motion.div>
+
+        <motion.div className={styles.inputGroup} variants={item}>
+          <span className={styles.icon}>💬</span>
+          <textarea
+            name="message"
+            placeholder="Your Message"
+            value={formData.message}
+            onChange={handleChange}
+            required
+            className={styles.textarea}
+          />
+        </motion.div>
+
+        <motion.button
+          type="submit"
+          disabled={loading}
+          className={styles.submitButton}
+          variants={item}
+          whileHover={{ scale: 1.05, y: -3 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {loading ? <span className={styles.spinner}></span> : null}
+          {loading ? "Sending..." : "Send Message"}
+        </motion.button>
+
+        {toast && (
+          <motion.div
+            className={styles.toast}
+            initial={{ opacity: 0, y: 10, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            ✅ Message Sent Successfully!
+          </motion.div>
+        )}
+      </motion.form>
+    </motion.div>
+  );
+}
