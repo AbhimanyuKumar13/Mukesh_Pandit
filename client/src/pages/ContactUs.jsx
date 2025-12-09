@@ -146,6 +146,9 @@ export default function ContactUs() {
           </motion.div>
         )}
       </motion.form>
+      <motion.div className={styles.caution}>
+        <h1 className={styles.cautionh1}>If Form message is not working due to server issues please try to send direct mail by clicking above mail.</h1>
+      </motion.div>
     </motion.div>
   );
 }

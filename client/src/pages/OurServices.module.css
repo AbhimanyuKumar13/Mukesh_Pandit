@@ -5,16 +5,15 @@
   padding: 3.2rem 1.25rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
 }
- 
+
 .container {
   width: 100%;
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 }
- 
+
 .heading {
   font-size: clamp(1.6rem, 3.8vw, 2.2rem);
   font-weight: 700;
@@ -36,7 +35,7 @@
 /* ---------- Grid ---------- */
 .grid {
   display: flex;
-  gap: 1.25rem;  
+  gap: 1.25rem;
   flex-direction: column;
 }
 
@@ -149,7 +148,76 @@
   -webkit-user-drag: none;
 }
 
-/* Motion-friendly lower-power / reduced-motion support */
+/* ---------- Thumbnail row (new) ---------- */
+.thumbRow {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.65rem;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-x: auto;
+  padding-bottom: 4px; /* space for focus outlines / scrollbars */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* hide native scrollbar in modern browsers but keep scrollable */
+.thumbRow::-webkit-scrollbar {
+  height: 6px;
+}
+.thumbRow::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+.thumbRow::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Thumbnail button */
+.thumbBtn {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 4px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+  outline: none;
+}
+
+/* visual for active thumbnail */
+.thumbActive {
+  border-color: var(--os-accent);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+  transform: translateY(-2px);
+}
+
+/* accessible focus */
+.thumbBtn:focus {
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.06), 0 0 0 5px rgba(34,197,94,0.08);
+}
+
+/* the img inside thumbnail */
+.thumbImg {
+  display: block;
+  width: 64px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 6px;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+/* smaller thumbnail sizes for small screens */
+@media (max-width: 720px) {
+  .thumbImg {
+    width: 56px;
+    height: 40px;
+  }
+}
+
+/* ---------- Motion-friendly lower-power / reduced-motion support */
 @media (prefers-reduced-motion: reduce) {
   .card,
   .serviceImage {
@@ -204,6 +272,12 @@
     font-size: 0.98rem;
     padding: 0 0.25rem;
   }
+
+  /* thumbnails should stay usable but smaller */
+  .thumbImg {
+    width: 48px;
+    height: 36px;
+  }
 }
 
 /* Utility: small visual divider between content and image on wide layout */
@@ -223,6 +297,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column; /* stack main image + thumbnails vertically on wide screens */
   }
 
   .serviceImage,
@@ -231,5 +306,11 @@
     max-height: 220px;
     width: 100%;
     border-radius: 10px;
+  }
+
+  /* thumbnails on wide layout appear below image and centered */
+  .thumbRow {
+    justify-content: center;
+    margin-top: 0.85rem;
   }
 }

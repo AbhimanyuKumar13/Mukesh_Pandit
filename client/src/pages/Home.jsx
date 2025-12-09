@@ -2,9 +2,12 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import styles from "./Home.module.css";
 import { Typewriter } from "react-simple-typewriter";
 import { Link } from "react-router-dom";
+import Construction1 from "../assets/Construction1.jpg";
 import Construction2 from "../assets/Construction2.jpg";
 import Construction3 from "../assets/Construction3.jpg";
-import Construction1 from "../assets/Construction1.jpg";
+import Construction4 from "../assets/Construction4.jpg";
+import Construction5 from "../assets/Construction5.jpg";
+import Construction6 from "../assets/Construction6.jpg";
 
 
 import { FaLongArrowAltRight } from "react-icons/fa";
@@ -27,7 +30,7 @@ export const Home = () => {
     show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
   };
 
-  const banners = [Construction1, Construction2, Construction3];
+  const banners = [Construction1, Construction2, Construction3, Construction4, Construction5, Construction6];
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [isDragging, setIsDragging] = useState(false);

@@ -157,7 +157,14 @@
   margin-top: -0.5rem;
   margin-bottom: 0.5rem;
 }
-
+.caution{ 
+  margin-top: 20px;
+}
+.cautionh1{
+  color: rgb(255, 222, 37);
+  font-size: 20px;
+  font-weight: 400;
+}
 /* small screens */
 @media (max-width: 520px) {
   .container {

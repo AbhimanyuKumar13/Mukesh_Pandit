@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import styles from "./OurServices.module.css";
 
-// --- static imports: point these to files in src/images/ ---
-import Industrial from "../assets/images/Industrial.jpg";
+import Industrial1 from "../assets/images/Industrial1.jpg";
+import Industrial2 from "../assets/images/Industrial2.jpg";
+import Industrial3 from "../assets/images/Industrial3.jpg";
+
 import warehouse from "../assets/images/warehouse.webp";
-import rowhouse from "../assets/images/rowhouse.webp"; 
-import HouseDesign2 from "../assets/images/HouseDesign2.jpg"; 
+import warehouse1 from "../assets/images/warehouse1.jpg";
+import warehouse2 from "../assets/images/warehouse2.jpg";
+
+import rowhouse1 from "../assets/images/rowhouse1.webp";
+import rowhouse2 from "../assets/images/rowhouse2.jpg";
+
+import HouseDesign1 from "../assets/images/HouseDesign1.jpg";
+import HouseDesign2 from "../assets/images/HouseDesign2.jpg";
+import HouseDesign3 from "../assets/images/HouseDesign3.jpg";
 
 const defaultServices = [
   {
@@ -20,7 +29,7 @@ const defaultServices = [
       "Purpose: Primary occupancy or rental income as a dwelling.",
       "Features: Bedrooms, bathrooms, kitchens, living areas.",
     ],
-    imageUrl: HouseDesign2,
+    images: [HouseDesign1, HouseDesign2, HouseDesign3],
     imageAlt: "Residential building",
   },
   {
@@ -34,7 +43,7 @@ const defaultServices = [
       "Ownership normally includes structure and land.",
       "May include private gardens, terraces, or shared amenities.",
     ],
-    imageUrl: rowhouse,
+    images: [rowhouse1, rowhouse2],
     imageAlt: "Row houses",
   },
   {
@@ -48,8 +57,8 @@ const defaultServices = [
       "Purpose: Production, storage, logistics, transportation.",
       "Features: High ceilings, robust construction, large column spacing.",
     ],
-    imageUrl: Industrial,
-    imageAlt: "Industrial warehouse",
+    images: [Industrial1, Industrial2, Industrial3],
+    imageAlt: "Industrial project",
   },
   {
     id: 4,
@@ -62,12 +71,11 @@ const defaultServices = [
       "Often located near transport routes (highways, rail, ports).",
       "Key for supply chain and distribution operations.",
     ],
-    imageUrl: warehouse,
+    images: [warehouse, warehouse1, warehouse2],
     imageAlt: "Warehouse interior",
   },
 ];
 
-// animation variants
 const containerVariant = {
   hidden: {},
   visible: {
@@ -86,6 +94,85 @@ const imgVariant = {
   rest: { scale: 1, y: 0 },
   hover: { scale: 1.04, y: -6, transition: { duration: 0.35, ease: "easeOut" } },
 };
+
+/**
+ * ServiceCard - renders a single service card and manages local image selection
+ */
+function ServiceCard({ s }) {
+  const [idx, setIdx] = useState(0);
+  const images = s.images && s.images.length > 0 ? s.images : [];
+
+  return (
+    <motion.article
+      className={styles.card}
+      variants={cardVariant}
+      whileHover={{ y: -6, boxShadow: "0px 12px 30px rgba(15,23,42,0.12)" }}
+      transition={{ type: "spring", stiffness: 200, damping: 20 }}
+      aria-labelledby={`svc-${s.id}-title`}
+    >
+      <div className={styles.cardContent}>
+        <h3 id={`svc-${s.id}-title`} className={styles.cardTitle}>
+          {s.title}
+        </h3>
+        {s.subtitle && <p className={styles.cardSubtitle}>{s.subtitle}</p>}
+        <p className={styles.cardDescription}>{s.description}</p>
+
+        {s.bullets && s.bullets.length > 0 && (
+          <ul className={styles.bulletList}>
+            {s.bullets.map((b, i) => (
+              <li key={i} className={styles.bulletItem}>
+                {b}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <div className={styles.note}>
+          <strong>Use case:</strong> Residential = living; Industrial = commercial & logistics.
+        </div>
+      </div>
+
+      <div className={styles.imageWrap}>
+        {images.length > 0 ? (
+          <>
+            <motion.img
+              src={images[idx]}
+              alt={s.imageAlt || s.title}
+              className={styles.serviceImage}
+              loading="lazy"
+              variants={imgVariant}
+              initial="rest"
+              whileHover="hover"
+              whileTap={{ scale: 0.99 }}
+              draggable={false}
+            />
+
+            {/* thumbnails (hide on very small screens via CSS if you want) */}
+            {images.length > 1 && (
+              <div className={styles.thumbRow} aria-hidden="false">
+                {images.map((img, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    className={`${styles.thumbBtn} ${i === idx ? styles.thumbActive : ""}`}
+                    onClick={() => setIdx(i)}
+                    aria-label={`Show image ${i + 1} for ${s.title}`}
+                  >
+                    <img src={img} alt={`${s.title} thumbnail ${i + 1}`} className={styles.thumbImg} loading="lazy" draggable={false} />
+                  </button>
+                ))}
+              </div>
+            )}
+          </>
+        ) : (
+          <div className={styles.imagePlaceholder} aria-hidden="true">
+            <span className={styles.imageLabel}>Image space</span>
+          </div>
+        )}
+      </div>
+    </motion.article>
+  );
+}
 
 export default function OurServices({ services = defaultServices }) {
   return (
@@ -107,56 +194,7 @@ export default function OurServices({ services = defaultServices }) {
           viewport={{ once: true, amount: 0.12 }}
         >
           {services.map((s) => (
-            <motion.article
-              key={s.id}
-              className={styles.card}
-              variants={cardVariant}
-              whileHover={{ y: -6, boxShadow: "0px 12px 30px rgba(15,23,42,0.12)" }}
-              transition={{ type: "spring", stiffness: 200, damping: 20 }}
-              aria-labelledby={`svc-${s.id}-title`}
-            >
-              <div className={styles.cardContent}>
-                <h3 id={`svc-${s.id}-title`} className={styles.cardTitle}>
-                  {s.title}
-                </h3>
-                {s.subtitle && <p className={styles.cardSubtitle}>{s.subtitle}</p>}
-                <p className={styles.cardDescription}>{s.description}</p>
-
-                {s.bullets && s.bullets.length > 0 && (
-                  <ul className={styles.bulletList}>
-                    {s.bullets.map((b, i) => (
-                      <li key={i} className={styles.bulletItem}>
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                <div className={styles.note}>
-                  <strong>Use case:</strong> Residential = living; Industrial = commercial & logistics.
-                </div>
-              </div>
-
-              <div className={styles.imageWrap}>
-                {s.imageUrl ? (
-                  <motion.img
-                    src={s.imageUrl}
-                    alt={s.imageAlt || s.title}
-                    className={styles.serviceImage}
-                    loading="lazy"
-                    variants={imgVariant}
-                    initial="rest"
-                    whileHover="hover"
-                    whileTap={{ scale: 0.99 }}
-                    draggable={false}
-                  />
-                ) : (
-                  <div className={styles.imagePlaceholder} aria-hidden="true">
-                    <span className={styles.imageLabel}>Image space</span>
-                  </div>
-                )}
-              </div>
-            </motion.article>
+            <ServiceCard key={s.id} s={s} />
           ))}
         </motion.div>
       </div>
